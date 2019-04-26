@@ -1,4 +1,4 @@
-# test
+# AssetTrade Vue components repo
 
 ## Project setup
 ```
