@@ -19,9 +19,6 @@ export default {
     this.grabWords();
   },
   computed: {
-    canvasId() {
-      return `canvas-${this.componentId}`;
-    },
     containerId() {
       return `canvas-container-${this.componentId}`;
     },
@@ -34,17 +31,34 @@ export default {
   },
   methods: {
     grabWords() {
-      const minSize = 8;
-      const maxSize = 30;
-      const linksContainer = document.querySelector('.tagadelic.wrapper');
-      const links = linksContainer.querySelectorAll('a');
-      const words = links.length && Array.from(links).map(link => [
-        link.text,
-        Math.floor(Math.random() * (maxSize - minSize + 1)) + minSize,
-        link.href,
-      ]);
+      const links = document.querySelectorAll('.vue-tagcloud .view-content > div');
+
+      const words = links && links.length && Array.from(links).map((link) => {
+        const anchor = link.querySelector('a');
+        const quantity = parseFloat(link.querySelector('.quantity').textContent);
+
+        return [
+          anchor.text,
+          this.calcFontSize(quantity),
+          anchor.href,
+        ];
+      });
 
       this.words = words;
+    },
+    calcFontSize(size) {
+      const maxFontSize = 60;
+      const minFontSize = 12;
+
+      if (size <= minFontSize) {
+        return minFontSize;
+      }
+
+      if (size >= maxFontSize) {
+        return maxFontSize;
+      }
+
+      return size;
     },
     generateComponendId() {
       this.componentId = Math.floor(Math.random() * 10000);
