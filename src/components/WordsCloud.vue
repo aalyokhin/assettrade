@@ -61,11 +61,16 @@ export default {
     createInstance() {
       WordCloud(document.getElementById(this.containerId), {
         color: () => {
-          const hue = 240;
-          const saturation = Math.floor(Math.random() * 100);
-          const lightness = Math.floor(Math.random() * 100);
+          const colors = [
+            '#004784',
+            '#297cbe',
+            '#2b7fc0',
+            '#3f3f3f',
+            '#e3e3e4',
+            '#e3e3e466',
+          ];
 
-          return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+          return (colors)[Math.floor(Math.random() * colors.length)]
         },
         classes: 'words-cloud__word',
         clearCanvas: true,
