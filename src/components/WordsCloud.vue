@@ -39,26 +39,18 @@ export default {
 
         return [
           anchor.text,
-          this.calcFontSize(quantity),
+          this.randomFontSize(quantity),
           anchor.href,
         ];
       });
 
       this.words = words;
     },
-    calcFontSize(size) {
-      const maxFontSize = 60;
-      const minFontSize = 12;
+    randomFontSize() {
+      const maxFontSize = 42;
+      const minFontSize = 10;
 
-      if (size <= minFontSize) {
-        return minFontSize;
-      }
-
-      if (size >= maxFontSize) {
-        return maxFontSize;
-      }
-
-      return size;
+      return Math.floor(Math.random() * (maxFontSize - minFontSize + 1) + minFontSize);
     },
     generateComponendId() {
       this.componentId = Math.floor(Math.random() * 10000);
@@ -68,13 +60,22 @@ export default {
     },
     createInstance() {
       WordCloud(document.getElementById(this.containerId), {
+        color: () => {
+          const hue = 240;
+          const saturation = Math.floor(Math.random() * 100);
+          const lightness = Math.floor(Math.random() * 100);
+
+          return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+        },
         classes: 'words-cloud__word',
         clearCanvas: true,
         click: item => this.clickHandler(item),
-        fontFamily: 'Arial, sans-serif',
+        fontFamily: 'Helvetica Neue, Helvetica, Arial, sans-serif',
+        fontWeight: 'bold',
         list: this.words,
         rotateRatio: 0.5,
         rotationSteps: 2,
+        shuffle: true,
         wait: 25,
       });
     },
